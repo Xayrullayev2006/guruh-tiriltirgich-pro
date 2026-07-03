@@ -84,8 +84,7 @@
 
   <div class="header">
     <h1 id="user-name">Yuklanmoqda...</h1>
-    <!-- O'zgartirilgan qator: -->
-    <div class="level-text">Sizning gulingiz holati:</div>
+    <div class="level-text">Sizning gulingiz darajasi: <b id="user-level-num" style="color:var(--ink)">-</b>/10</div>
   </div>
 
   <div class="stage-container">
@@ -234,8 +233,7 @@ function initApp() {
           <div class="rank">#${index + 1}</div>
           <div class="name">${user.name} ${badge}</div>
         </div>
-        <!-- O'zgartirilgan qator: -->
-        <div class="pts">${user.pts} pts</div>
+        <div class="pts">${user.pts} pts (Lvl ${userLvl})</div>
       </div>
     `;
   });
