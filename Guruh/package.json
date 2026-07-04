@@ -1,11 +1,13 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "api/bot.js", "use": "@vercel/node" },
-    { "src": "public/**/*", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/api/bot", "dest": "api/bot.js" },
-    { "src": "/(.*)", "dest": "public/$1" }
-  ]
+  "name": "guruh-guli-bot",
+  "version": "1.0.0",
+  "description": "Telegram Mini App for Group Activity",
+  "main": "api/bot.js",
+  "scripts": {
+    "start": "node api/bot.js"
+  },
+  "dependencies": {
+    "mongoose": "^8.0.0",
+    "telegraf": "^4.15.0"
+  }
 }
