@@ -6,6 +6,19 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <title>Guruh Guli</title>
 <style>
+  /* Guruh guli vidjeti */
+  .group-card {
+    margin: 0 20px 15px; padding: 12px 16px; background: rgba(21, 24, 27, 0.4);
+    border: 1px solid var(--line); border-radius: 16px;
+    display: flex; align-items: center; gap: 15px; flex-shrink: 0;
+  }
+  .group-flower-mini {
+    width: 50px; height: 65px; flex-shrink: 0;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .group-flower-mini svg { width: 100%; height: 100%; overflow: visible; }
+  .group-info h3 { margin: 0 0 5px; font-size: 15px; color: var(--ink); }
+  .group-info p { margin: 0; font-size: 12px; color: var(--muted); }
   /* Sizning ranglar palitrangiz va asosiy sozlamalar[cite: 1] */
   :root{
     --bg-1:#0e1013; --bg-2:#181414; --card:#15181bcc; 
@@ -82,17 +95,23 @@
 </head>
 <body>
 
- <div class="header">
+  <div class="header">
     <h1 id="user-name">Yuklanmoqda...</h1>
-    <!-- O'zgartirilgan qator: -->
-    <div class="level-text">Sizning gulingiz holati:</div>
+    <div class="level-text">Sizning gulingiz holati <b id="user-level-num" style="color:var(--ink)">-</b>/10</div>
   </div>
 
   <div class="stage-container">
     <div class="stage" id="main-flower"></div>
     <div class="status-label" id="flower-status">...</div>
   </div>
-
+<!-- Guruhning o'rtacha guli -->
+  <div class="group-card">
+    <div class="group-flower-mini" id="group-flower"></div>
+    <div class="group-info">
+      <h3>Guruhning umumiy guli</h3>
+      <p id="group-status-text">O'rtacha holat hisoblanmoqda...</p>
+    </div>
+  </div>
   <div class="leaderboard">
     <div class="leaderboard-title">🏆 Guruhning eng aktivlari</div>
     <div id="top-list">
@@ -229,6 +248,7 @@ function initApp() {
     const userLvl = getLevelByPts(user.pts);
     const badge = userLvl === 10 ? '👑' : userLvl <= 2 ? '🥀' : '🌱';
     listContainer.innerHTML += `
+    
       <div class="list-item">
         <div class="user-info">
           <div class="rank">#${index + 1}</div>
@@ -241,6 +261,19 @@ function initApp() {
 }
 
 initApp();
+// Guruh o'rtacha ballini hisoblash
+  const allUsers = mockData.topUsers;
+  // Barcha pts larni bir-biriga qo'shamiz va odam soniga bo'lamiz
+  const totalPts = allUsers.reduce((sum, user) => sum + user.pts, 0);
+  const avgPts = Math.floor(totalPts / allUsers.length);
+  
+  // O'rtacha ballga mos darajani aniqlaymiz
+  const groupLvl = getLevelByPts(avgPts);
+  const groupCfg = LEVELS.find(l => l.lvl === groupLvl);
+
+  // Ekranga chiqarish ('group' id orqali ranglar aralashib ketmasligini ta'minlaymiz[cite: 1])
+  document.getElementById('group-flower').innerHTML = buildFlowerSVG(groupCfg, 'group');
+  document.getElementById('group-status-text').innerText = `O'rtacha: ${avgPts} pts (${groupCfg.label})`;
 </script>
 </body>
 </html>
